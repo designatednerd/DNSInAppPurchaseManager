@@ -8,9 +8,6 @@
 
 #import "DNSInAppPurchaseManager.h"
 
-#import "DNSSettings.h"
-#import "DNSConstants.h"
-
 @interface DNSInAppPurchaseManager() 
 @property (nonatomic, strong) SKProductsRequest *productsRequest;
 @end
@@ -68,7 +65,7 @@
     __block id<DNSInAppPurchaseManagerDelegate> blockDelegate = self.delegate;
 
     if (response.products.count == 0) {
-        DLog(@"IAP response had no products!");
+        NSLog(@"IAP response had no products!");
         //Make sure to call delegate methods on main thread.
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             [blockDelegate productRetrievalFailed:[self connectionProblemErrorString]];
@@ -83,7 +80,7 @@
 
 -(void)request:(SKRequest *)request didFailWithError:(NSError *)error
 {
-    DLog(@"Error! %@", error);
+    NSLog(@"Error! %@", error);
     __block id<DNSInAppPurchaseManagerDelegate> blockDelegate = self.delegate;
 
     //Make sure to call delegate methods on main thread.
@@ -112,23 +109,12 @@
 }
 
 #pragma mark - Transaction handling
-
--(void)providePurchasedContent:(NSString *)purchasedProductIdentifier
-{
-    if ([purchasedProductIdentifier isEqualToString:kRemoveAdProductID]) {
-        //Update the settings singleton.
-        [[DNSSettings sharedInstance] setAdRemovalPurchased:YES];
-    }
-}
-
 - (void)transactionSucceeded:(SKPaymentTransaction *)transaction
 {
-    [self providePurchasedContent:transaction.payment.productIdentifier];
-    
     //Notify the delegate.
     __block id<DNSInAppPurchaseManagerDelegate> blockDelegate = self.delegate;
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [blockDelegate purchaseSucceeded];
+        [blockDelegate purchaseSucceeded:transaction.payment.productIdentifier];
     }];
     
     // Remove the transaction from the payment queue.

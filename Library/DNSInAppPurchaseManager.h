@@ -32,8 +32,9 @@
 
 /**
  * Called when a purchase has succeeded.
+ * @param productIdentifier - The product identifier for the purchase which succeeded. 
  */
--(void)purchaseSucceeded;
+-(void)purchaseSucceeded:(NSString *)productIdentifier;
 @end
 
 
