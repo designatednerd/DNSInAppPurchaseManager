@@ -21,6 +21,7 @@
 		9B2FDB1B1899F824007B9D3B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B2FDAFD1899F824007B9D3B /* UIKit.framework */; };
 		9B2FDB231899F824007B9D3B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9B2FDB211899F824007B9D3B /* InfoPlist.strings */; };
 		9B2FDB251899F824007B9D3B /* DNSInAppPurchaseManagerSampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2FDB241899F824007B9D3B /* DNSInAppPurchaseManagerSampleTests.m */; };
+		9B2FDB311899FB3A007B9D3B /* DNSInAppPurchaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2FDB301899FB3A007B9D3B /* DNSInAppPurchaseManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,8 @@
 		9B2FDB201899F824007B9D3B /* DNSInAppPurchaseManagerSampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DNSInAppPurchaseManagerSampleTests-Info.plist"; sourceTree = "<group>"; };
 		9B2FDB221899F824007B9D3B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9B2FDB241899F824007B9D3B /* DNSInAppPurchaseManagerSampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DNSInAppPurchaseManagerSampleTests.m; sourceTree = "<group>"; };
+		9B2FDB2F1899FB3A007B9D3B /* DNSInAppPurchaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DNSInAppPurchaseManager.h; sourceTree = "<group>"; };
+		9B2FDB301899FB3A007B9D3B /* DNSInAppPurchaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DNSInAppPurchaseManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +121,7 @@
 				9B2FDB0E1899F824007B9D3B /* DNSViewController.h */,
 				9B2FDB0F1899F824007B9D3B /* DNSViewController.m */,
 				9B2FDB111899F824007B9D3B /* Images.xcassets */,
+				9B2FDB2E1899FB3A007B9D3B /* Library */,
 				9B2FDB001899F824007B9D3B /* Supporting Files */,
 			);
 			path = DNSInAppPurchaseManagerSample;
@@ -151,6 +155,15 @@
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
+		};
+		9B2FDB2E1899FB3A007B9D3B /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				9B2FDB2F1899FB3A007B9D3B /* DNSInAppPurchaseManager.h */,
+				9B2FDB301899FB3A007B9D3B /* DNSInAppPurchaseManager.m */,
+			);
+			path = Library;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -253,6 +266,7 @@
 				9B2FDB101899F824007B9D3B /* DNSViewController.m in Sources */,
 				9B2FDB0A1899F824007B9D3B /* DNSAppDelegate.m in Sources */,
 				9B2FDB061899F824007B9D3B /* main.m in Sources */,
+				9B2FDB311899FB3A007B9D3B /* DNSInAppPurchaseManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
