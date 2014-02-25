@@ -10,8 +10,8 @@
 
 @interface DNSInAppPurchaseManager() 
 @property (nonatomic, strong) SKProductsRequest *productsRequest;
-@end
 
+@end
 
 @implementation DNSInAppPurchaseManager
 
@@ -24,7 +24,7 @@
     [self requestProductData:productIdentifiers];
 }
 
-- (void)requestProductData:(NSSet *)productIdentifiers
+-(void)requestProductData:(NSSet *)productIdentifiers
 {
     self.productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:productIdentifiers];
     self.productsRequest.delegate = self;
@@ -89,7 +89,6 @@
     }];
 }
 
-
 #pragma mark - SKPaymentTransactionObserver method
 -(void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions
 {
@@ -109,7 +108,7 @@
 }
 
 #pragma mark - Transaction handling
-- (void)transactionSucceeded:(SKPaymentTransaction *)transaction
+-(void)transactionSucceeded:(SKPaymentTransaction *)transaction
 {
     //Notify the delegate.
     __block id<DNSInAppPurchaseManagerDelegate> blockDelegate = self.delegate;
@@ -121,11 +120,10 @@
     [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
 }
 
-
 -(void)transactionFailed:(SKPaymentTransaction *)transaction
 {
     __block id<DNSInAppPurchaseManagerDelegate> blockDelegate = self.delegate;
-    if (transaction.error.code != SKErrorPaymentCancelled){
+    if (transaction.error.code != SKErrorPaymentCancelled) {
         NSString *message = NSLocalizedString(@"Sorry, your transaction has failed with the following error: ", @"Prepended string for error localized description.");
         NSString *error = [transaction.error localizedDescription];
         message = [message stringByAppendingString:error];
@@ -134,12 +132,12 @@
         }];
     } else {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [blockDelegate purchaseFailed:nil];
+            [blockDelegate purchaseCancelled];
         }];
     }
     
     //Remove the transaction from the payment queue.
-    [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
+    [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
 }
 
 @end

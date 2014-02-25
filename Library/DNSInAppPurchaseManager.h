@@ -25,18 +25,23 @@
 -(void)productsRetrieved:(NSArray *)products;
 
 /**
- * Called when a purchase has failed or been canceled. 
- * @param errorMessage - The error message to be displayed to the user, or nil if the purchase failed because it was canceled.
+ * Called when a purchase has failed.
+ * @param errorMessage - The error message to be displayed to the user.
  */
 -(void)purchaseFailed:(NSString *)errorMessage;
+
+/**
+ * Called when the user cancels a purchase.
+ */
+-(void)purchaseCancelled;
 
 /**
  * Called when a purchase has succeeded.
  * @param productIdentifier - The product identifier for the purchase which succeeded. 
  */
 -(void)purchaseSucceeded:(NSString *)productIdentifier;
-@end
 
+@end
 
 @interface DNSInAppPurchaseManager : NSObject <SKProductsRequestDelegate, SKPaymentTransactionObserver>
 
