@@ -45,7 +45,7 @@
 
 @interface DNSInAppPurchaseManager : NSObject <SKProductsRequestDelegate, SKPaymentTransactionObserver>
 
-//Note: Any method calling a delegate method should be wrapped in a check to send the command back to the main queue. 
+///The delegate for the IAP manager. NOTE: All calls will call back on the main queue.
 @property (nonatomic, assign) id<DNSInAppPurchaseManagerDelegate> delegate;
 
 /**
@@ -56,7 +56,7 @@
 
 /**
  * Convenience alert view to show it the user is unable to make in-app purchases. Should
- * only be shown once, but does not manage this itself.
+ * only be shown once, but does not manage this state itself.
  */
 -(UIAlertView *)cantMakePurchasesAlert;
 
