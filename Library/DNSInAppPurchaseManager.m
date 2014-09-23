@@ -46,7 +46,7 @@
 {
     //Warn the user
     NSString *title = NSLocalizedString(@"In-App Purchases Disabled", @"In-App Purchases Disabled");
-    NSString *message = NSLocalizedString(@"Sorry, In-App Purchases are currently disabled on this device. Please enable In-App Purchases if you wish to get rid of ads. \n\nThis message will not be repated.", @"Instructions to re-enable In-App Purchases.");
+    NSString *message = NSLocalizedString(@"Sorry, In-App Purchases are currently disabled on this device. Please enable In-App Purchases if you wish to purchase this item. \n\nThis message will not be repated.", @"Instructions to re-enable In-App Purchases.");
     NSString *ok = NSLocalizedString(@"OK", @"OK");
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:ok otherButtonTitles:nil];
     return alert;
