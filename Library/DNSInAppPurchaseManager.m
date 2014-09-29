@@ -36,6 +36,11 @@
     return NSLocalizedString(@"There was a problem connecting to the Apple server. Please try your purchase again.", @"Error for failure of in-app purchases");
 }
 
+-(NSString *)noProductsRetrievedString
+{
+    return NSLocalizedString(@"No products are currently available for purchase. Please try again later.", @"Error for no products.");
+}
+
 #pragma mark - Public convenience methods
 -(BOOL)canMakePurchases
 {
@@ -68,7 +73,7 @@
         NSLog(@"IAP response had no products!");
         //Make sure to call delegate methods on main thread.
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [blockDelegate productRetrievalFailed:[self connectionProblemErrorString]];
+            [blockDelegate productRetrievalFailed:[self noProductsRetrievedString]];
         }];
         return;
     }
