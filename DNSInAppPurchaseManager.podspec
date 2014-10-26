@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "DNSInAppPurchaseManager"
-  s.version      = '1.1.1'
+  s.version      = '1.2.0'
   s.summary      = "DNSInAppPurchaseManager"
   s.description  = <<-DESC
                    A simple In-App purchase manager for iOS.
