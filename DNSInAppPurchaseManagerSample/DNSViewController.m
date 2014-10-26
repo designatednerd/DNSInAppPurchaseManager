@@ -20,6 +20,7 @@ static NSString * const kIAPFailAlertShown = @"IAPFailAlertShown";
 @property (nonatomic, strong) DNSInAppPurchaseManager *iapManager;
 @property (nonatomic, strong) NSArray *availableProducts;
 @property (nonatomic, weak) IBOutlet UIButton *testProductButton;
+@property (nonatomic, weak) IBOutlet UIButton *restoreButton;
 
 @end
 
@@ -36,6 +37,8 @@ static NSString * const kIAPFailAlertShown = @"IAPFailAlertShown";
     
     self.testProductButton.enabled = NO;
     [self.testProductButton setTitle:NSLocalizedString(@"Loading...", @"Loading...") forState:UIControlStateNormal];
+    
+    [self.restoreButton setTitle:NSLocalizedString(@"Restore", @"Restore") forState:UIControlStateNormal];
 }
 
 #pragma mark - IBActions
@@ -47,6 +50,15 @@ static NSString * const kIAPFailAlertShown = @"IAPFailAlertShown";
     
     //Use the tag of the button to determine what to purchase.
     [self buyProductAtIndex:sender.tag];
+}
+
+-(IBAction)retorePurchases:(UIButton *)sender
+{
+    //Disable the button to prevent multiple restoration attempts.
+    self.restoreButton.enabled = NO;
+    [self.restoreButton setTitle:NSLocalizedString(@"Restoring...", @"Restoring...") forState:UIControlStateNormal];
+    
+    [self.iapManager restoreExistingPurchases];
 }
 
 #pragma mark - In-App Purchase setup
@@ -128,9 +140,13 @@ static NSString * const kIAPFailAlertShown = @"IAPFailAlertShown";
         //Store your available products.
         self.availableProducts = products;
         
+        //Since we know there's only one product:
+        SKProduct *firstProduct = [products firstObject];
+
         //Refresh UI
         self.testProductButton.enabled = YES;
-        [self.testProductButton setTitle:NSLocalizedString(@"Buy test product!", @"Button title for successful product retrieval") forState:UIControlStateNormal];
+        NSString *buttonTitle = [NSString stringWithFormat:NSLocalizedString(@"Buy test product! (%@)", @"Button title format for successful product retrieval"), [DNSInAppPurchaseManager localeFormattedPriceForProduct:firstProduct]];
+        [self.testProductButton setTitle:buttonTitle forState:UIControlStateNormal];
     } else {
         [self showErrorAlertView:@"No products retrieved from ITC!"];
     }
@@ -155,6 +171,18 @@ static NSString * const kIAPFailAlertShown = @"IAPFailAlertShown";
     if ([productIdentifier isEqualToString:kReplaceWithYourAdID]) {
         [self purchaseSucceeded];
     } //check other purchases with else-if statements here.
+}
+
+-(void)restorationSucceeded
+{
+    [self.restoreButton setTitle:@"Restored Successfully!" forState:UIControlStateNormal];
+}
+
+-(void)restorationFailedWithError:(NSString *)errorMessage
+{
+    [self showErrorAlertView:errorMessage];
+    self.restoreButton.enabled = YES;
+    [self.restoreButton setTitle:NSLocalizedString(@"Restore failed. Tap to try again.", @"Restore failed button title") forState:UIControlStateNormal];
 }
 
 @end

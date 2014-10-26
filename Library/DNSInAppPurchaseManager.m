@@ -15,6 +15,22 @@
 
 @implementation DNSInAppPurchaseManager
 
+#pragma mark - Class Convenience.
++(NSString *)localeFormattedPriceForProduct:(SKProduct *)product
+{
+    static NSNumberFormatter * _formatter;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _formatter = [[NSNumberFormatter alloc] init];
+        [_formatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
+        [_formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+    });
+
+    [_formatter setLocale:product.priceLocale];
+    return [_formatter stringFromNumber:product.price];
+}
+
+#pragma mark - Load 'em up!
 -(void)loadStoreWithIdentifiers:(NSSet *)productIdentifiers
 {
     // restarts any purchases if they were interrupted last time the app was open
@@ -62,6 +78,12 @@
     SKPayment *payment = [SKPayment paymentWithProduct:product];
     [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
     [[SKPaymentQueue defaultQueue] addPayment:payment];
+}
+
+-(void)restoreExistingPurchases
+{
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
+    [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
 }
 
 #pragma mark - SKProductsRequestDelegate method
@@ -143,6 +165,23 @@
     
     //Remove the transaction from the payment queue.
     [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+}
+
+-(void)paymentQueueRestoreCompletedTransactionsFinished:(SKPaymentQueue *)queue
+{
+    __block id<DNSInAppPurchaseManagerDelegate> blockDelegate = self.delegate;
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [blockDelegate restorationSucceeded];
+    }];
+}
+
+-(void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error
+{
+    __block id<DNSInAppPurchaseManagerDelegate> blockDelegate = self.delegate;
+    NSString *errorMessage = [error localizedDescription];
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [blockDelegate restorationFailedWithError:errorMessage];
+    }];
 }
 
 @end

@@ -36,10 +36,21 @@
 -(void)purchaseCancelled;
 
 /**
- * Called when a purchase has succeeded.
- * @param productIdentifier - The product identifier for the purchase which succeeded. 
+ * Called when a purchase has succeeded OR been restored
+ * @param productIdentifier - The product identifier for the purchase which succeeded or been restored. 
  */
 -(void)purchaseSucceeded:(NSString *)productIdentifier;
+
+/**
+ *  Indicates restoration finished successfully
+ */
+-(void)restorationSucceeded;
+
+/**
+ *  Indicates restoration failed.
+ *  @param errorMessage A user-facing error message.
+ */
+-(void)restorationFailedWithError:(NSString *)errorMessage;
 
 @end
 
@@ -47,6 +58,12 @@
 
 ///The delegate for the IAP manager. NOTE: All calls will call back on the main queue.
 @property (nonatomic, assign) id<DNSInAppPurchaseManagerDelegate> delegate;
+
+/**
+ *  Convenience method to get a formatted price string for a product. 
+ *  @return The locale-formatted price for a product with the appropriate currency symbol.
+ */
++(NSString *)localeFormattedPriceForProduct:(SKProduct *)product;
 
 /**
  * Whether the user has in-app purchases enabled. 
@@ -69,5 +86,10 @@
  * Begins the purchase process for the given product. 
  */
 -(void)purchaseProduct:(SKProduct *)product;
+
+/**
+ *  Begins the restore process for any previous purchases. 
+ */
+-(void)restoreExistingPurchases;
 
 @end
