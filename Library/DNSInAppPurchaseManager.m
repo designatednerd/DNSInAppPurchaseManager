@@ -89,30 +89,30 @@
 #pragma mark - SKProductsRequestDelegate method
 -(void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response
 {
-    __block id<DNSInAppPurchaseManagerDelegate> blockDelegate = self.delegate;
+    __weak id<DNSInAppPurchaseManagerDelegate> weakDelegate = self.delegate;
 
     if (response.products.count == 0) {
         NSLog(@"IAP response had no products!");
         //Make sure to call delegate methods on main thread.
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [blockDelegate productRetrievalFailed:[self noProductsRetrievedString]];
+            [weakDelegate productRetrievalFailed:[self noProductsRetrievedString]];
         }];
         return;
     }
     
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [blockDelegate productsRetrieved:response.products];
+        [weakDelegate productsRetrieved:response.products];
     }];
 }
 
 -(void)request:(SKRequest *)request didFailWithError:(NSError *)error
 {
     NSLog(@"Error! %@", error);
-    __block id<DNSInAppPurchaseManagerDelegate> blockDelegate = self.delegate;
+    __weak id<DNSInAppPurchaseManagerDelegate> weakDelegate = self.delegate;
 
     //Make sure to call delegate methods on main thread.
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [blockDelegate productRetrievalFailed:error.localizedDescription];
+        [weakDelegate productRetrievalFailed:error.localizedDescription];
     }];
 }
 
@@ -138,9 +138,9 @@
 -(void)transactionSucceeded:(SKPaymentTransaction *)transaction
 {
     //Notify the delegate.
-    __block id<DNSInAppPurchaseManagerDelegate> blockDelegate = self.delegate;
+    __weak id<DNSInAppPurchaseManagerDelegate> weakDelegate = self.delegate;
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [blockDelegate purchaseSucceeded:transaction.payment.productIdentifier];
+        [weakDelegate purchaseSucceeded:transaction.payment.productIdentifier];
     }];
     
     // Remove the transaction from the payment queue.
@@ -149,17 +149,17 @@
 
 -(void)transactionFailed:(SKPaymentTransaction *)transaction
 {
-    __block id<DNSInAppPurchaseManagerDelegate> blockDelegate = self.delegate;
+    __weak id<DNSInAppPurchaseManagerDelegate> weakDelegate = self.delegate;
     if (transaction.error.code != SKErrorPaymentCancelled) {
         NSString *message = NSLocalizedString(@"Sorry, your transaction has failed with the following error: ", @"Prepended string for error localized description.");
         NSString *error = [transaction.error localizedDescription];
         message = [message stringByAppendingString:error];
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [blockDelegate purchaseFailed:message];
+            [weakDelegate purchaseFailed:message];
         }];
     } else {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [blockDelegate purchaseCancelled];
+            [weakDelegate purchaseCancelled];
         }];
     }
     
@@ -169,18 +169,18 @@
 
 -(void)paymentQueueRestoreCompletedTransactionsFinished:(SKPaymentQueue *)queue
 {
-    __block id<DNSInAppPurchaseManagerDelegate> blockDelegate = self.delegate;
+    __weak id<DNSInAppPurchaseManagerDelegate> weakDelegate = self.delegate;
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [blockDelegate restorationSucceeded];
+        [weakDelegate restorationSucceeded];
     }];
 }
 
 -(void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error
 {
-    __block id<DNSInAppPurchaseManagerDelegate> blockDelegate = self.delegate;
+    __weak id<DNSInAppPurchaseManagerDelegate> weakDelegate = self.delegate;
     NSString *errorMessage = [error localizedDescription];
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [blockDelegate restorationFailedWithError:errorMessage];
+        [weakDelegate restorationFailedWithError:errorMessage];
     }];
 }
 
