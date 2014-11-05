@@ -30,6 +30,13 @@
     return [_formatter stringFromNumber:product.price];
 }
 
+#pragma mark - Lifecycle
+- (void)dealloc
+{
+    [[SKPaymentQueue defaultQueue] removeTransactionObserver:self];
+    self.productsRequest.delegate = nil;
+}
+
 #pragma mark - Load 'em up!
 -(void)loadStoreWithIdentifiers:(NSSet *)productIdentifiers
 {
