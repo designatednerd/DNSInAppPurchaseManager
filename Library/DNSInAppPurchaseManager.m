@@ -31,7 +31,7 @@
 }
 
 #pragma mark - Lifecycle
-- (void)dealloc
+-(void)dealloc
 {
     [[SKPaymentQueue defaultQueue] removeTransactionObserver:self];
     self.productsRequest.delegate = nil;
