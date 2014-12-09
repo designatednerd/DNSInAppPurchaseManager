@@ -272,7 +272,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "if [[ -z ${SKIP_OBJCLEAN} || ${SKIP_OBJCLEAN} != 1 ]]; then\nif [[ -d \"${LOCAL_APPS_DIR}/Objective-Clean.app\" ]]; then\necho \"Local apps dir: ${LOCAL_APPS_DIR}\"\n\"${LOCAL_APPS_DIR}\"/Objective-Clean.app/Contents/Resources/ObjClean.app/Contents/MacOS/ObjClean \"${SRCROOT}\" \nelse\necho \"warning: You have to install and set up Objective-Clean to use its features!\" \nfi\nfi";
+			shellScript = "if [[ -z ${SKIP_OBJCLEAN} || ${SKIP_OBJCLEAN} != 1 ]]; then\nif [[ -d \"${LOCAL_APPS_DIR}/Objective-Clean.app\" ]]; then\necho \"Local apps dir: ${LOCAL_APPS_DIR}\"\necho \"SRCROOT: ${SRCROOT}\"\n\"${LOCAL_APPS_DIR}\"/Objective-Clean.app/Contents/Resources/ObjClean.app/Contents/MacOS/ObjClean \"${SRCROOT}\" \nelse\necho \"warning: You have to install and set up Objective-Clean to use its features!\" \nfi\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
