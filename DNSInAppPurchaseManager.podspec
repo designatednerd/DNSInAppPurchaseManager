@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "DNSInAppPurchaseManager"
-  s.version      = '1.2.2'
+  s.version      = '2.0.0'
   s.summary      = "DNSInAppPurchaseManager"
   s.description  = <<-DESC
                    A simple In-App purchase manager for iOS.
@@ -10,8 +10,8 @@ Pod::Spec.new do |s|
   s.author       = { "Ellen Shapiro" => "designatednerd@gmail.com" }
   s.source       = { :git => "https://github.com/designatednerd/DNSInAppPurchaseManager.git", :tag => s.version.to_s }
 
-  s.platform     = :ios, '7.0'
-  s.ios.deployment_target = '7.0'
+  s.platform     = :ios, '9.0'
+  s.ios.deployment_target = '9.0'
   s.requires_arc = true
 
   s.source_files = 'Library'
