@@ -73,9 +73,10 @@
 
 /**
  * Convenience alert view to show it the user is unable to make in-app purchases. Should
- * only be shown once, but does not manage this state itself.
+ * only be shown once, but does not manage this state itself. Returned with text and an "OK" 
+ * action set up, other actions may be added before showing if desired. 
  */
--(UIAlertView *)cantMakePurchasesAlert;
+-(UIAlertController *)cantMakePurchasesAlert;
 
 /**
  * Loads up the store using the given set of product identifiers.
